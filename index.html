@@ -54,6 +54,10 @@ h1, h2, h3 { text-wrap: balance; margin: 0; }
 p { margin: 0; }
 
 /* ---------- Header ---------- */
+.topbar { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--bg) 86%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid transparent; transition: border-color .2s; }
+.topbar.is-stuck { border-bottom-color: var(--line); }
+.topbar .top { padding-block: 16px; }
+html { scroll-padding-top: 80px; }
 .top { padding-block: 22px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
 .top .id { font-family: var(--f-mono); font-size: 13px; color: var(--muted); letter-spacing: .02em; }
 .top-right { display: flex; align-items: center; gap: 20px; }
@@ -130,6 +134,19 @@ section { border-top: 1px solid var(--line); padding-block: 64px; }
 .metric .s { margin-top: 4px; font-size: 12px; color: var(--muted); font-family: var(--f-mono); }
 
 /* Cases */
+.case-list { margin-top: 14px; display: grid; gap: 10px; }
+.case-toggle { border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+.case-toggle > summary { list-style: none; cursor: pointer; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; padding: 12px 16px; font-size: 15px; font-weight: 600; color: var(--ink); }
+.case-toggle > summary::-webkit-details-marker { display: none; }
+.case-toggle > summary::after { content: "+"; margin-left: auto; font-family: var(--f-mono); color: var(--teal); font-weight: 500; transition: transform .2s; }
+.case-toggle[open] > summary::after { transform: rotate(45deg); }
+.case-toggle > summary:hover .ct-title, .case-toggle > summary:focus-visible .ct-title { color: var(--teal); }
+.ct-label { flex: none; font-family: var(--f-mono); font-size: 11px; font-weight: 500; color: var(--orange); letter-spacing: .02em; }
+.ct-meta { flex: none; font-family: var(--f-mono); font-size: 11px; font-weight: 500; color: var(--teal); padding: 1px 8px; border-radius: 999px; background: color-mix(in srgb, var(--teal) 12%, transparent); }
+.ct-hint { font-size: 12px; color: var(--muted); }
+.case.case-in { background: transparent; border: 0; border-top: 1px solid var(--line); border-radius: 0; padding: 4px 16px 18px; }
+.case.case-in .tags { margin-top: 12px; }
+.job .case-in .star { color: var(--ink); }
 .cases { display: grid; gap: 22px; }
 .case { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 26px; }
 .case-top { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: baseline; justify-content: space-between; }
@@ -145,11 +162,11 @@ section { border-top: 1px solid var(--line); padding-block: 64px; }
 
 /* Experience timeline */
 .timeline { display: grid; gap: 0; }
-.job { display: grid; grid-template-columns: 170px 1fr; gap: 20px; padding-block: 22px; border-bottom: 1px solid var(--line); }
+.job { display: grid; grid-template-columns: 1fr; gap: 6px; padding-block: 26px; border-bottom: 1px solid var(--line); }
 .job:first-child { padding-top: 0; }
 .job:last-child { border-bottom: 0; }
 .job > * { min-width: 0; }
-.job .when { font-family: var(--f-mono); font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.job .when { font-family: var(--f-mono); font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; letter-spacing: .02em; }
 .job .when .now { color: var(--orange); }
 .job h3 { font-size: 18px; font-weight: 600; }
 .job .role { color: var(--teal); font-size: 14px; font-weight: 500; margin-top: 2px; }
@@ -161,13 +178,18 @@ section { border-top: 1px solid var(--line); padding-block: 64px; }
 .sub div span { color: var(--muted); }
 
 /* Skills */
-.skills { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px 36px; }
-.skills h3 { font-size: 15px; font-weight: 600; margin-bottom: 10px; }
-.skills ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
-.skills li { display: grid; grid-template-columns: auto 1fr; gap: 10px; font-size: 15px; align-items: baseline; }
-.lv { font-family: var(--f-mono); font-size: 11px; padding: 1px 6px; border-radius: 3px; border: 1px solid var(--teal); color: var(--teal); }
-.lv.p { border-color: var(--line); color: var(--muted); }
-.skills li span.x { color: var(--muted); }
+.skills { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; counter-reset: sk; }
+.skills > div { counter-increment: sk; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px 14px; transition: border-color .2s, transform .2s; }
+.skills > div:hover { border-color: var(--teal); transform: translateY(-2px); }
+.skills h3 { display: flex; align-items: baseline; gap: 10px; font-size: 16px; font-weight: 600; padding-bottom: 12px; margin-bottom: 4px; border-bottom: 1px solid var(--line); }
+.skills h3::before { content: counter(sk, decimal-leading-zero); font-family: var(--f-mono); font-size: 12px; font-weight: 500; color: var(--orange); }
+.skills ul { list-style: none; margin: 0; padding: 0; display: grid; }
+.skills li { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 0; font-size: 15px; font-weight: 500; border-bottom: 1px dashed var(--line); }
+.skills li:last-child { border-bottom: 0; }
+.skills li > .lv { order: 2; flex: none; }
+.skills li span.x { display: block; margin-top: 1px; font-size: 13px; font-weight: 400; color: var(--muted); }
+.lv { font-family: var(--f-mono); font-size: 11px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--teal); color: var(--teal); background: color-mix(in srgb, var(--teal) 10%, transparent); }
+.lv.p { border-color: var(--line); color: var(--muted); background: transparent; }
 .legend { margin-top: 24px; font-size: 13px; color: var(--muted); display: flex; gap: 16px; flex-wrap: wrap; }
 
 /* Projects */
@@ -249,6 +271,49 @@ footer { padding-block: 26px; font-size: 13px; color: var(--muted); font-family:
   @keyframes grow { from { transform: scaleX(.15); } to { transform: scaleX(1); } }
 }
 
+/* ===== Draft v2: motion + bigger type + stacked projects ===== */
+.hero { padding-block: 72px 88px; max-width: 980px; }
+.hero h1 { font-size: clamp(40px, 7.2vw, 84px); line-height: 1.12; letter-spacing: -0.035em; }
+.hero h1 em { font-style: italic; font-weight: 600; }
+.hero h1 .w { display: inline-block; opacity: 0; transform: translateY(0.45em); animation: wordIn .8s cubic-bezier(.2,.7,.2,1) forwards; }
+@keyframes wordIn { to { opacity: 1; transform: none; } }
+.hero .lede, .hero .name, .hero .cta { opacity: 0; animation: wordIn .8s cubic-bezier(.2,.7,.2,1) forwards; animation-delay: .9s; }
+
+.marquee { border-block: 1px solid var(--line); overflow: hidden; padding-block: 14px; background: var(--surface); }
+.marquee-track { display: flex; width: max-content; animation: marquee 38s linear infinite; }
+.marquee span { font-family: var(--f-mono); font-size: 14px; color: var(--muted); padding-inline: 18px; white-space: nowrap; }
+.marquee span::after { content: "✦"; color: var(--orange); margin-left: 36px; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+.reveal.in { opacity: 1; transform: none; }
+
+.pf-grid { grid-template-columns: 1fr; gap: 28px; }
+.pf-card { flex-direction: row; align-items: stretch; }
+.pf-card:nth-child(even) { flex-direction: row-reverse; }
+.pf-card:hover { transform: none; }
+.pf-thumb { flex: 0 0 58%; border-bottom: 0; }
+.pf-thumb img { transition: transform .9s cubic-bezier(.2,.7,.2,1); }
+.pf-card:hover .pf-thumb img { transform: scale(1.05); }
+.pf-info { align-content: center; padding: 28px 30px; gap: 10px; }
+.pf-no { font-family: var(--f-mono); font-size: 13px; color: var(--orange); letter-spacing: .08em; }
+.pf-info h3 { font-size: clamp(19px, 2.2vw, 24px); line-height: 1.35; letter-spacing: -0.01em; }
+.pf-ctags { display: flex; gap: 6px; flex-wrap: wrap; }
+.pf-more { display: inline-flex; gap: 6px; align-items: center; font-size: 14px; }
+.pf-more::after { content: "→"; transition: transform .3s; }
+.pf-card:hover .pf-more::after { transform: translateX(6px); }
+@media (max-width: 760px) {
+  .pf-card, .pf-card:nth-child(even) { flex-direction: column; }
+  .pf-thumb { flex: none; }
+  .pf-info { padding: 18px 18px 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero h1 .w, .hero .lede, .hero .name, .hero .cta { animation: none; opacity: 1; transform: none; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .marquee-track { animation: none; }
+  .pf-thumb img { transition: none; }
+}
+
 /* First-visit language chooser */
 .lang-pick { position: fixed; inset: 0; z-index: 50; background: var(--bg); display: flex; align-items: center; justify-content: center; padding: 24px; }
 .lang-pick .box { text-align: center; max-width: 440px; }
@@ -272,36 +337,38 @@ footer { padding-block: 26px; font-size: 13px; color: var(--muted); font-family:
 </div>
 
 <div class="lang-ko" lang="ko" hidden>
-<div class="wrap">
-  <header class="top">
+<header class="topbar"><div class="wrap"><div class="top">
     <div class="id">CHOI JIIN · DATA ANALYST</div>
     <div class="top-right">
       <nav aria-label="섹션">
-        <a href="#experience">경력</a>
-        <a href="#impact">성과</a>
-        <a href="#cases">경력기술서</a>
-        <a href="#portfolio">포트폴리오</a>
+        <a href="#about">소개</a>
         <a href="#skills">기술</a>
+        <a href="#education">학력</a>
+        <a href="#experience">경력</a>
+        <a href="#portfolio">포트폴리오</a>
         <a href="#contact">연락</a>
       </nav>
       <div class="lang-seg" role="group" aria-label="언어 선택"><button type="button" class="lang-btn" data-lang="ko" aria-pressed="true">KO</button><button type="button" class="lang-btn" data-lang="en" aria-pressed="false">EN</button></div>
     </div>
-  </header>
+  </div></div></header>
+<div class="wrap">
 
   <div class="hero">
     <div>
       <div class="eyebrow">Marketing × Finance × Data</div>
       <h1>광고 클릭에서 <em>손익</em>까지,<br>숫자로 연결하는 분석가</h1>
-      <p class="lede">퍼포먼스 마케팅, FP&amp;A, 데이터 엔지니어링을 오가며 5년간 병원·헬스케어 비즈니스의 퍼널을 설계하고 고쳐왔습니다. 로그 설계부터 대시보드, 경영 리포팅까지 한 흐름으로 다룹니다.</p>
+      <p class="lede">퍼포먼스 마케팅, FP&amp;A, 데이터 엔지니어링을 오가며 5년간 병원·헬스케어 비즈니스의 퍼널을 설계하고 고쳐왔습니다. 로그 설계부터 대시보드, 경영 리포팅까지 한 흐름으로 다루고, 생성형 AI로 반복 업무를 자동화하는 도구를 직접 만들어 팀의 업무 효율을 높입니다.</p>
       <div class="name"><strong>최지인</strong><span>Data Analyst · Business Analyst</span></div>
       <div class="cta">
-        <a class="btn" href="#cases">경력기술서 보기</a>
+        <a class="btn" href="#experience">경력 보기</a>
         <a class="btn ghost" href="#contact">연락하기</a>
       </div>
     </div>
 
   </div>
 </div>
+
+<div class="marquee" aria-hidden="true"><div class="marquee-track"><span>BigQuery</span><span>SQL</span><span>Python</span><span>Apps Script</span><span>GA4</span><span>GTM</span><span>Looker Studio</span><span>Claude API</span><span>Meta Ads API</span><span>n8n</span><span>SuperSet</span><span>XGBoost</span><span>SHAP</span><span>LSTM</span><span>BigQuery</span><span>SQL</span><span>Python</span><span>Apps Script</span><span>GA4</span><span>GTM</span><span>Looker Studio</span><span>Claude API</span><span>Meta Ads API</span><span>n8n</span><span>SuperSet</span><span>XGBoost</span><span>SHAP</span><span>LSTM</span></div></div>
 
 <section id="about">
   <div class="wrap sec">
@@ -317,9 +384,64 @@ footer { padding-block: 26px; font-size: 13px; color: var(--muted); font-family:
   </div>
 </section>
 
+<section id="skills">
+  <div class="wrap sec">
+    <div class="sec-label"><h2>기술 스택</h2><p>실무에서 쓰는 도구 중심</p></div>
+    <div>
+      <div class="skills">
+        <div>
+          <h3>ETL &amp; Data Processing</h3>
+          <ul>
+            <li><span class="lv">실무</span><span>SQL <span class="x">Window, CTE</span></span></li>
+            <li><span class="lv">실무</span><span>Python <span class="x">전처리, 모델링</span></span></li>
+            <li><span class="lv">실무</span><span>BigQuery <span class="x">데이터마트 설계, 쿼리 스케줄링</span></span></li>
+            <li><span class="lv p">프로젝트</span><span>PySpark <span class="x">대용량 전처리</span></span></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Automation</h3>
+          <ul>
+            <li><span class="lv">실무</span><span>Google Apps Script <span class="x">시트 자동화</span></span></li>
+            <li><span class="lv">실무</span><span>n8n <span class="x">워크플로우 자동화</span></span></li>
+            <li><span class="lv">실무</span><span>Meta Ads API · Google Ads <span class="x">광고 데이터 자동 수집</span></span></li>
+            <li><span class="lv">실무</span><span>Claude API · Google Chat <span class="x">LLM 챗봇 연동</span></span></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Dashboard &amp; Visualization</h3>
+          <ul>
+            <li><span class="lv">실무</span><span>Looker Studio <span class="x">매개변수, 교차필터링</span></span></li>
+            <li><span class="lv">실무</span><span>SuperSet <span class="x">SQL 기반 데이터셋</span></span></li>
+            <li><span class="lv p">프로젝트</span><span>Tableau</span></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Marketing &amp; Analytics</h3>
+          <ul>
+            <li><span class="lv">실무</span><span>GA4 · GTM <span class="x">로그 설계, 유저 행동 분석</span></span></li>
+            <li><span class="lv">실무</span><span>Excel <span class="x">파이낸셜, ROAS 시뮬레이션</span></span></li>
+            <li><span class="lv p">프로젝트</span><span>XGBoost · LSTM · SHAP <span class="x">ML/DL 모델링</span></span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap sec">
+    <div class="sec-label"><h2>학력 · 자격</h2></div>
+    <div class="edu">
+      <div><h3>이화여자대학교 데이터사이언스대학원</h3><p>석사 · 2023.09 – 2025.08<br>GPA 4.18 / 4.30 · 졸업프로젝트 1위 장학금</p></div>
+      <div><h3>홍익대학교 문화예술경영학</h3><p>학사 · 2016.03 – 2021.02<br>GPA 4.11 / 4.50</p></div>
+      <div><h3>자격 · 어학</h3><p>데이터분석 준전문가 (ADsP)<br>TOEFL iBT 5.0 (이전 기준 100점) · TOEIC 920 · 프랑스어 B1</p></div>
+    </div>
+  </div>
+</section>
+
 <section id="experience">
   <div class="wrap sec">
-    <div class="sec-label"><h2>경력</h2><p>총 4년 11개월</p></div>
+    <div class="sec-label"><h2>경력</h2><p>총 4년 11개월<br><span class="ct-hint">항목 아래 경력기술서를 펼쳐 볼 수 있어요</span></p></div>
     <div class="timeline">
       <div class="job">
         <div class="when"><span class="now">2026.10 – 현재</span></div>
@@ -332,6 +454,19 @@ footer { padding-block: 26px; font-size: 13px; color: var(--muted); font-family:
             <li>관리·회계 기준 영업이익 차이를 매출·광고비 타이밍과 인건비 분류차로 분해해 설명</li>
             <li>Claude API와 Google Chat을 연동한 손익봇 개발(MVP): 월간 손익 요약 자동 발송, 손익 질의응답</li>
           </ul>
+          <div class="case-list">
+<details class="case-toggle"><summary><span class="ct-label">경력기술서</span><span class="ct-title">손익 웹앱과 Google Chat 손익봇</span></summary>
+<article class="case case-in">
+        <div class="tags"><span class="tag">BigQuery</span><span class="tag">Apps Script</span><span class="tag">Claude API</span><span class="tag">Google Chat</span></div>
+        <dl class="star">
+          <dt>상황</dt><dd>선입금을 받고 광고비는 카드로 나중에 결제되는 구조라 세무 원장 기준 월 영업이익이 크게 출렁였습니다. 세금계산서·원장·통장이 따로 있어 미발행·미입금도 매달 손으로 대조했습니다.</dd>
+          <dt>액션</dt><dd>5개 원천을 RAW → STG → MART로 쌓고 발생→발행→입금 3중 대사와 관리·회계 기준 손익 차이 분해 마트를 만들었습니다. 그 위에 대표용 웹앱(확인할 일·계획·시나리오)을 배포했습니다.</dd>
+          <dt>AI</dt><dd>Google Chat 손익봇을 만들었습니다. 새 마감월이 생기면 요약 카드를 자동 발송하고, 질문에는 BigQuery에서 이미 계산된 숫자만 근거로 Claude가 설명합니다. 30초 응답 제한은 요약 캐시로 풀었습니다.</dd>
+          <dt>결과</dt><dd class="result">자동 리뷰의 9월 영업이익 증감이 수기 계산과 <b>원 단위로 일치</b>, 원장 오분류 <b>5건</b> 발견·수정. 손익봇 답변 숫자가 카드·산식과 일치. MVP 시험 운영 중, 효과 측정 전.</dd>
+        </dl>
+      </article>
+</details>
+          </div>
         </div>
       </div>
       <div class="job">
@@ -346,6 +481,20 @@ footer { padding-block: 26px; font-size: 13px; color: var(--muted); font-family:
             <li>아이디병원 글로벌사업 GA4·BigQuery 대시보드 운영 및 전환 집계 관리</li>
             <li>주요 고객사: DA성형외과(글로벌), 모아만의원, 짱한의원, 도수치료클리닉(6개 지점), 발톱치료클리닉(12개 지점)</li>
           </ul>
+          <div class="case-list">
+<details class="case-toggle"><summary><span class="ct-label">경력기술서</span><span class="ct-title">전환 경로 A/B 테스트로 예약당 비용 40% 절감</span></summary>
+<article class="case case-in">
+        <div class="tags"><span class="tag">Meta Ads</span><span class="tag">A/B Test</span><span class="tag">UTM</span><span class="tag">Funnel</span></div>
+        <dl class="star">
+          <dt>상황</dt><dd>짱한의원 광고는 이벤트 신청(디비)은 꾸준했지만 예약으로 이어지는 비율은 약 7%였습니다. 성과를 디비 수와 디비 단가로만 판단하다 보니, 예약으로 이어지지 않는 경로에 예산이 쓰이고 있을 수 있었습니다.</dd>
+          <dt>가설</dt><dd>광고 안에서 바로 입력하는 잠재고객 양식보다 진료·이벤트 내용을 읽고 신청하는 랜딩페이지가, 디비 단가는 비싸도 예약 전환율이 높아 예약 1건당 비용은 낮을 것이다.</dd>
+          <dt>검증</dt><dd>소재·타깃은 같고 전환 경로만 다른 두 캠페인을 6월 한 달간 동시에 운영하고, UTM으로 경로별 디비가 예약까지 이어지는지 추적했습니다. 주요 지표는 예약 전환율, 보조 지표는 예약당 비용으로 미리 정하고 예약이 마무리되는 2주를 더 기다려 비교했습니다. 잠재고객 양식은 디비 555건(디비당 31,457원), 랜딩페이지는 126건(77,334원)이었지만 예약 전환율은 <b>4% 대 20%</b>로 유의미한 차이가 났고, 예약당 비용은 약 79만 원 대 39만 원이었습니다.</dd>
+          <dt>액션</dt><dd>7월에 광고 비중을 랜딩페이지로 옮겨(랜딩 126→293건, 양식 555→210건), 랜딩페이지 광고를 최적화해 디비 단가를 77,334원에서 55,547원으로 28% 낮췄습니다.</dd>
+          <dt>결과</dt><dd class="result">디비는 681→503건으로 줄었지만 예약 <b>+41%</b>(47→67건), 예약 전환율 약 7%→<b>13%</b>, 광고비 <b>−16%</b>(약 2,720만→2,290만 원), 예약당 비용 <b>−40%</b>(약 57만→34만 원).</dd>
+        </dl>
+      </article>
+</details>
+          </div>
         </div>
       </div>
       <div class="job">
@@ -360,6 +509,30 @@ footer { padding-block: 26px; font-size: 13px; color: var(--muted); font-family:
           <div class="sub">
             <div><b>(주)리부트</b> <span>· 2025.09 – 10 · 광고 데이터 수집 자동화, 매출·비용 통합 대시보드</span></div>
             <div><b>아이디병원 글로벌사업</b> <span>· 2025.07 – 12 · (주)컨테이너스 프로젝트, 2026년 팀장 업무로 이어서 담당 · GA4·BigQuery 유저 대시보드, GTM 전환 집계, 예약 퍼널 개선 제안</span></div>
+          </div>
+          <div class="case-list">
+<details class="case-toggle"><summary><span class="ct-label">경력기술서</span><span class="ct-title">Meta 광고 리포팅 자동화와 상품화</span></summary>
+<article class="case case-in">
+        <div class="tags"><span class="tag">Meta Graph API</span><span class="tag">Apps Script</span><span class="tag">Productization</span></div>
+        <dl class="star">
+          <dt>상황</dt><dd>대행사 마케터가 고객사마다 Meta 광고관리자에서 성과를 내려받아 수기로 정리했습니다. 리포트가 늦고, 같은 '문의'·'구매'도 고객사마다 집계 기준이 달랐습니다.</dd>
+          <dt>액션</dt><dd>Graph API로 캠페인 일별 리포트와 34개 지표의 소재 리포트를 매일 자동 적재하고, 전환 이벤트를 action_type 후보군으로 표준화했습니다. 비어 있는 구매 ROAS는 구매액÷지출로 보정했습니다.</dd>
+          <dt>구조</dt><dd>중앙 라이브러리 → 고객별 스크립트 → 고객 시트의 3계층으로 나눠, 수집 로직은 보호하고 신규 고객사 온보딩은 복제 수준으로 단순화했습니다.</dd>
+          <dt>결과</dt><dd class="result">광고대행사 <b>2곳</b>, 고객 업체 <b>15곳</b>에 도입. Light·Growth·Enterprise 요금제의 자체 상품으로 판매.</dd>
+        </dl>
+      </article>
+</details>
+<details class="case-toggle"><summary><span class="ct-label">경력기술서</span><span class="ct-title">이탈 징후 탐지 기반 예약 퍼널 개선 제안</span></summary>
+<article class="case case-in">
+        <div class="tags"><span class="tag">GA4 · GTM</span><span class="tag">BigQuery</span><span class="tag">Welch's t-test</span></div>
+        <dl class="star">
+          <dt>상황</dt><dd>4단계 예약 퍼널에서 예약 의사가 높은 사용자가 마지막 단계 직전에 이탈하고 있었습니다.</dd>
+          <dt>분석</dt><dd>3단계 이탈자와 예약 완료자의 버튼 클릭 수를 비교. 이탈자 평균 3.30회, 완료자 1.83회로 유의미한 차이(p = 0.0448)를 확인했습니다.</dd>
+          <dt>제안</dt><dd>'3회 이상 클릭'을 Friction 신호로 정의하고, 감지 시 상담 연결 CTA를 띄우는 2주 50:50 A/B 테스트를 설계했습니다.</dd>
+          <dt>결과</dt><dd class="result">GA4 로그 설계 → BigQuery 전처리 → Looker Studio로 이어지는 <b>실시간 유저 대시보드</b> 구축.</dd>
+        </dl>
+      </article>
+</details>
           </div>
         </div>
       </div>
@@ -386,55 +559,9 @@ footer { padding-block: 26px; font-size: 13px; color: var(--muted); font-family:
             <li><b>데이터파트장</b> (2023.01–08): 파트 신설과 승진, BigQuery 도입과 데이터마트 구축, CRM 데이터 관리</li>
             <li><b>퍼포먼스마케팅</b> (2021.12–2023.01): 마케팅 믹스, 퍼널별 지표 관리, 캠페인 A/B 테스트</li>
           </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="impact">
-  <div class="wrap sec">
-    <div class="sec-label"><h2>숫자로 본 성과</h2><p>실무와 프로젝트에서 측정된 결과</p></div>
-    <div class="impact">
-      <div class="metric"><div class="v">+8<small>%p</small></div><div class="d">병원 방문율 상승</div><div class="s">방문의사 허들 A/B 테스트</div></div>
-      <div class="metric"><div class="v">−10<small>%p</small></div><div class="d">중복 유입률 감소</div><div class="s">기방문 고객 제외 타게팅</div></div>
-      <div class="metric"><div class="v">14→16<small>%</small></div><div class="d">TM 전환율 회복</div><div class="s">DB 분배 상한선(Cap) 도입</div></div>
-      <div class="metric"><div class="v">45<small>%</small></div><div class="d">데이터 관리 효율 향상</div><div class="s">BigQuery 데이터마트 · 1인당 1→3개 병원</div></div>
-      <div class="metric"><div class="v">0.815</div><div class="d">부도예측 모델 AR</div><div class="s">Multi-head LSTM · 졸업프로젝트 1위</div></div>
-      <div class="metric"><div class="v">6.6<small>×</small></div><div class="d">회원가입률 개선</div><div class="s">피큐레잇 그로스 프로젝트</div></div>
-    </div>
-  </div>
-</section>
-
-<section id="cases">
-  <div class="wrap sec">
-    <div class="sec-label"><h2>경력기술서</h2><p>문제를 어떻게 정의하고 풀었는지</p></div>
-    <div class="cases">
-
-      <article class="case">
-        <div class="case-top"><h3>손익 웹앱과 Google Chat 손익봇</h3><span class="where">데이터멘토 · 컨테이너스 경영 플래닝 · 2026.10–</span></div>
-        <div class="tags"><span class="tag">BigQuery</span><span class="tag">Apps Script</span><span class="tag">Claude API</span><span class="tag">Google Chat</span></div>
-        <dl class="star">
-          <dt>상황</dt><dd>선입금을 받고 광고비는 카드로 나중에 결제되는 구조라 세무 원장 기준 월 영업이익이 크게 출렁였습니다. 세금계산서·원장·통장이 따로 있어 미발행·미입금도 매달 손으로 대조했습니다.</dd>
-          <dt>액션</dt><dd>5개 원천을 RAW → STG → MART로 쌓고 발생→발행→입금 3중 대사와 관리·회계 기준 손익 차이 분해 마트를 만들었습니다. 그 위에 대표용 웹앱(확인할 일·계획·시나리오)을 배포했습니다.</dd>
-          <dt>AI</dt><dd>Google Chat 손익봇을 만들었습니다. 새 마감월이 생기면 요약 카드를 자동 발송하고, 질문에는 BigQuery에서 이미 계산된 숫자만 근거로 Claude가 설명합니다. 30초 응답 제한은 요약 캐시로 풀었습니다.</dd>
-          <dt>결과</dt><dd class="result">자동 리뷰의 9월 영업이익 증감이 수기 계산과 <b>원 단위로 일치</b>, 원장 오분류 <b>5건</b> 발견·수정. 손익봇 답변 숫자가 카드·산식과 일치. MVP 시험 운영 중, 효과 측정 전.</dd>
-        </dl>
-      </article>
-
-      <article class="case">
-        <div class="case-top"><h3>Meta 광고 리포팅 자동화와 상품화</h3><span class="where">데이터멘토 · Meta AutoReport Kit · 2025–26</span></div>
-        <div class="tags"><span class="tag">Meta Graph API</span><span class="tag">Apps Script</span><span class="tag">Productization</span></div>
-        <dl class="star">
-          <dt>상황</dt><dd>대행사 마케터가 고객사마다 Meta 광고관리자에서 성과를 내려받아 수기로 정리했습니다. 리포트가 늦고, 같은 '문의'·'구매'도 고객사마다 집계 기준이 달랐습니다.</dd>
-          <dt>액션</dt><dd>Graph API로 캠페인 일별 리포트와 34개 지표의 소재 리포트를 매일 자동 적재하고, 전환 이벤트를 action_type 후보군으로 표준화했습니다. 비어 있는 구매 ROAS는 구매액÷지출로 보정했습니다.</dd>
-          <dt>구조</dt><dd>중앙 라이브러리 → 고객별 스크립트 → 고객 시트의 3계층으로 나눠, 수집 로직은 보호하고 신규 고객사 온보딩은 복제 수준으로 단순화했습니다.</dd>
-          <dt>결과</dt><dd class="result">광고대행사 <b>2곳</b>, 고객 업체 <b>15곳</b>에 도입. Light·Growth·Enterprise 요금제의 자체 상품으로 판매.</dd>
-        </dl>
-      </article>
-
-      <article class="case">
-        <div class="case-top"><h3>체험 프로모션 전환 퍼널 재설계</h3><span class="where">메디빌더 자회사 르샤인앤파트너스 · 2024–25</span></div>
+          <div class="case-list">
+<details class="case-toggle"><summary><span class="ct-label">경력기술서</span><span class="ct-meta">2022 · 퍼포먼스마케팅</span><span class="ct-title">체험 프로모션 전환 퍼널 재설계</span></summary>
+<article class="case case-in">
         <div class="tags"><span class="tag">A/B Test</span><span class="tag">Cohort</span><span class="tag">Dashboard</span></div>
         <dl class="star">
           <dt>상황</dt><dd>체험 프로모션은 유입 단가가 낮았지만 방문 전환율이 낮아 실질 유입 비용이 올라갔고, 저가 상품 위주 구매로 객단가가 계속 떨어졌습니다.</dd>
@@ -443,9 +570,29 @@ footer { padding-block: 26px; font-size: 13px; color: var(--muted); font-family:
           <dt>결과</dt><dd class="result">병원 방문율 <b>+8%p</b>, 중복 유입률 <b>−10%p</b>. 유효 고객 중심의 캠페인 구조로 재편.</dd>
         </dl>
       </article>
-
-      <article class="case">
-        <div class="case-top"><h3>텔레마케팅 내원율 하락 원인 분석</h3><span class="where">메디빌더 자회사 르샤인앤파트너스 · 2024–25</span></div>
+</details>
+<details class="case-toggle"><summary><span class="ct-label">경력기술서</span><span class="ct-meta">2023 · 데이터파트</span><span class="ct-title">BigQuery 기반 데이터마트 구축</span></summary>
+<article class="case case-in">
+        <div class="tags"><span class="tag">BigQuery</span><span class="tag">SQL</span><span class="tag">Looker Studio</span></div>
+        <dl class="star">
+          <dt>상황</dt><dd>병원별 데이터가 흩어져 있어 통합 분석이 어렵고 정확도도 낮았습니다.</dd>
+          <dt>액션</dt><dd>고객·마케팅·병원 데이터를 잇는 파이프라인을 설계하고, 코호트별 결제율과 ROAS를 보는 퍼널 대시보드와 주간 인사이트 리포트를 운영했습니다.</dd>
+          <dt>결과</dt><dd class="result">데이터 관리 효율 <b>45%</b> 향상, 1인당 관리 범위 <b>1개 → 3개 병원</b>.</dd>
+        </dl>
+      </article>
+</details>
+<details class="case-toggle"><summary><span class="ct-label">경력기술서</span><span class="ct-meta">2024 · 재무전략실</span><span class="ct-title">공헌이익 기반 적정 ROAS 모델</span></summary>
+<article class="case case-in">
+        <div class="tags"><span class="tag">FP&amp;A</span><span class="tag">BEP</span><span class="tag">Simulation</span></div>
+        <dl class="star">
+          <dt>상황</dt><dd>광고비만으로 ROAS를 판단해 고정비·변동비가 반영되지 않았습니다. 수익성이 높은 센터는 소극적으로, 낮은 센터는 계속 집행되는 구조였습니다.</dd>
+          <dt>액션</dt><dd>사업별 고정비/변동비를 분리해 캠페인별 공헌이익 ROAS를 설계하고, 한계 ROAS·적정 ROAS 가이드라인과 광고비 재배분 시뮬레이션을 만들었습니다.</dd>
+          <dt>결과</dt><dd class="result">센터별 구조적 수익성 한계와 투자 여력을 정량으로 구분하는 <b>ROAS 운영 기준</b> 수립.</dd>
+        </dl>
+      </article>
+</details>
+<details class="case-toggle"><summary><span class="ct-label">경력기술서</span><span class="ct-meta">2024 · 르샤인앤파트너스</span><span class="ct-title">텔레마케팅 내원율 하락 원인 분석</span></summary>
+<article class="case case-in">
         <div class="tags"><span class="tag">Funnel Analysis</span><span class="tag">Interview</span><span class="tag">Ops Design</span></div>
         <dl class="star">
           <dt>상황</dt><dd>16% 수준이던 전환율이 3개월간 14%에 머물렀고, 신규 상담원을 채용한 뒤에도 회복되지 않았습니다.</dd>
@@ -454,38 +601,10 @@ footer { padding-block: 26px; font-size: 13px; color: var(--muted); font-family:
           <dt>결과</dt><dd class="result">전환율 <b>15~16%</b> 수준으로 회복, 신규 상담원 멘토링 프로세스 정착.</dd>
         </dl>
       </article>
-
-      <article class="case">
-        <div class="case-top"><h3>공헌이익 기반 적정 ROAS 모델</h3><span class="where">메디빌더 HQ재무전략실 · 2023–24</span></div>
-        <div class="tags"><span class="tag">FP&amp;A</span><span class="tag">BEP</span><span class="tag">Simulation</span></div>
-        <dl class="star">
-          <dt>상황</dt><dd>광고비만으로 ROAS를 판단해 고정비·변동비가 반영되지 않았습니다. 수익성이 높은 센터는 소극적으로, 낮은 센터는 계속 집행되는 구조였습니다.</dd>
-          <dt>액션</dt><dd>사업별 고정비/변동비를 분리해 캠페인별 공헌이익 ROAS를 설계하고, 한계 ROAS·적정 ROAS 가이드라인과 광고비 재배분 시뮬레이션을 만들었습니다.</dd>
-          <dt>결과</dt><dd class="result">센터별 구조적 수익성 한계와 투자 여력을 정량으로 구분하는 <b>ROAS 운영 기준</b> 수립.</dd>
-        </dl>
-      </article>
-
-      <article class="case">
-        <div class="case-top"><h3>이탈 징후 탐지 기반 예약 퍼널 개선 제안</h3><span class="where">ID병원 글로벌사업 · 2025</span></div>
-        <div class="tags"><span class="tag">GA4 · GTM</span><span class="tag">BigQuery</span><span class="tag">Welch's t-test</span></div>
-        <dl class="star">
-          <dt>상황</dt><dd>4단계 예약 퍼널에서 예약 의사가 높은 사용자가 마지막 단계 직전에 이탈하고 있었습니다.</dd>
-          <dt>분석</dt><dd>3단계 이탈자와 예약 완료자의 버튼 클릭 수를 비교. 이탈자 평균 3.30회, 완료자 1.83회로 유의미한 차이(p = 0.0448)를 확인했습니다.</dd>
-          <dt>제안</dt><dd>'3회 이상 클릭'을 Friction 신호로 정의하고, 감지 시 상담 연결 CTA를 띄우는 2주 50:50 A/B 테스트를 설계했습니다.</dd>
-          <dt>결과</dt><dd class="result">GA4 로그 설계 → BigQuery 전처리 → Looker Studio로 이어지는 <b>실시간 유저 대시보드</b> 구축.</dd>
-        </dl>
-      </article>
-
-      <article class="case">
-        <div class="case-top"><h3>BigQuery 기반 데이터마트 구축</h3><span class="where">메디빌더 퍼포먼스마케팅팀 · 2023</span></div>
-        <div class="tags"><span class="tag">BigQuery</span><span class="tag">SQL</span><span class="tag">Looker Studio</span></div>
-        <dl class="star">
-          <dt>상황</dt><dd>병원별 데이터가 흩어져 있어 통합 분석이 어렵고 정확도도 낮았습니다.</dd>
-          <dt>액션</dt><dd>고객·마케팅·병원 데이터를 잇는 파이프라인을 설계하고, 코호트별 결제율과 ROAS를 보는 퍼널 대시보드와 주간 인사이트 리포트를 운영했습니다.</dd>
-          <dt>결과</dt><dd class="result">데이터 관리 효율 <b>45%</b> 향상, 1인당 관리 범위 <b>1개 → 3개 병원</b>.</dd>
-        </dl>
-      </article>
-
+</details>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -494,50 +613,6 @@ footer { padding-block: 26px; font-size: 13px; color: var(--muted); font-family:
   <div class="wrap sec">
     <div class="sec-label"><h2>프로젝트 포트폴리오</h2><p>썸네일을 누르면 슬라이드로 자세히 볼 수 있어요</p></div>
     <div class="pf-grid" data-lang="ko"></div>
-  </div>
-</section>
-
-<section id="skills">
-  <div class="wrap sec">
-    <div class="sec-label"><h2>기술 스택</h2><p>실무에서 쓰는 도구 중심</p></div>
-    <div>
-      <div class="skills">
-        <div>
-          <h3>ETL &amp; Data Processing</h3>
-          <ul>
-            <li><span class="lv">실무</span><span>SQL <span class="x">· Window, CTE</span></span></li>
-            <li><span class="lv">실무</span><span>Python <span class="x">· 전처리, 모델링</span></span></li>
-            <li><span class="lv">실무</span><span>BigQuery <span class="x">· 데이터마트 설계, 쿼리 스케줄링</span></span></li>
-            <li><span class="lv p">프로젝트</span><span>PySpark <span class="x">· 대용량 전처리</span></span></li>
-          </ul>
-        </div>
-        <div>
-          <h3>Automation</h3>
-          <ul>
-            <li><span class="lv">실무</span><span>Google Apps Script <span class="x">· 시트 자동화</span></span></li>
-            <li><span class="lv">실무</span><span>n8n <span class="x">· 워크플로우 자동화</span></span></li>
-            <li><span class="lv">실무</span><span>Meta Ads API · Google Ads <span class="x">· 광고 데이터 자동 수집</span></span></li>
-            <li><span class="lv">실무</span><span>Claude API · Google Chat <span class="x">· LLM 챗봇 연동</span></span></li>
-          </ul>
-        </div>
-        <div>
-          <h3>Dashboard &amp; Visualization</h3>
-          <ul>
-            <li><span class="lv">실무</span><span>Looker Studio <span class="x">· 매개변수, 교차필터링</span></span></li>
-            <li><span class="lv">실무</span><span>SuperSet <span class="x">· SQL 기반 데이터셋</span></span></li>
-            <li><span class="lv p">프로젝트</span><span>Tableau</span></li>
-          </ul>
-        </div>
-        <div>
-          <h3>Marketing &amp; Analytics</h3>
-          <ul>
-            <li><span class="lv">실무</span><span>GA4 · GTM <span class="x">· 로그 설계, 유저 행동 분석</span></span></li>
-            <li><span class="lv">실무</span><span>Excel <span class="x">· 파이낸셜, ROAS 시뮬레이션</span></span></li>
-            <li><span class="lv p">프로젝트</span><span>XGBoost · LSTM · SHAP <span class="x">· ML/DL 모델링</span></span></li>
-          </ul>
-        </div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -582,17 +657,6 @@ footer { padding-block: 26px; font-size: 13px; color: var(--muted); font-family:
   </div>
 </section>
 
-<section id="education">
-  <div class="wrap sec">
-    <div class="sec-label"><h2>학력 · 자격</h2></div>
-    <div class="edu">
-      <div><h3>이화여자대학교 데이터사이언스대학원</h3><p>석사 · 2023.09 – 2025.08<br>GPA 4.18 / 4.30 · 졸업프로젝트 1위 장학금</p></div>
-      <div><h3>홍익대학교 문화예술경영학</h3><p>학사 · 2016.03 – 2021.02<br>GPA 4.11 / 4.50</p></div>
-      <div><h3>자격 · 어학</h3><p>데이터분석 준전문가 (ADsP)<br>TOEFL iBT 5.0 (이전 기준 100점) · TOEIC 920 · 프랑스어 B1</p></div>
-    </div>
-  </div>
-</section>
-
 <section id="contact" class="contact">
   <div class="wrap sec">
     <div class="sec-label"><h2>연락</h2><p>프로젝트 · 컨설팅 · 채용 문의</p></div>
@@ -615,35 +679,37 @@ footer { padding-block: 26px; font-size: 13px; color: var(--muted); font-family:
 </div>
 
 <div class="lang-en" lang="en" hidden>
-<div class="wrap">
-  <header class="top">
+<header class="topbar"><div class="wrap"><div class="top">
     <div class="id">CHOI JIIN · DATA ANALYST</div>
     <div class="top-right">
       <nav aria-label="Sections">
-        <a href="#experience-en">Experience</a>
-        <a href="#impact-en">Impact</a>
-        <a href="#cases-en">Case studies</a>
-        <a href="#portfolio-en">Portfolio</a>
+        <a href="#about-en">About</a>
         <a href="#skills-en">Skills</a>
+        <a href="#education-en">Education</a>
+        <a href="#experience-en">Experience</a>
+        <a href="#portfolio-en">Portfolio</a>
         <a href="#contact-en">Contact</a>
       </nav>
       <div class="lang-seg" role="group" aria-label="Language"><button type="button" class="lang-btn" data-lang="ko" aria-pressed="false">KO</button><button type="button" class="lang-btn" data-lang="en" aria-pressed="true">EN</button></div>
     </div>
-  </header>
+  </div></div></header>
+<div class="wrap">
 
   <div class="hero">
     <div>
       <div class="eyebrow">Marketing × Finance × Data</div>
       <h1>From ad clicks to <em>P&amp;L</em>,<br>an analyst who connects the numbers</h1>
-      <p class="lede">For five years I have moved between performance marketing, FP&amp;A and data engineering, designing and fixing funnels for hospital and healthcare businesses. I handle the whole flow, from event logging to dashboards to management reporting.</p>
+      <p class="lede">For five years I have moved between performance marketing, FP&amp;A and data engineering, designing and fixing funnels for hospital and healthcare businesses. I handle the whole flow, from event logging to dashboards to management reporting, and I build AI-powered tools that automate repetitive work so teams can focus on decisions.</p>
       <div class="name"><strong>Jiin Choi</strong><span>Data Analyst · Business Analyst</span></div>
       <div class="cta">
-        <a class="btn" href="#cases-en">View case studies</a>
+        <a class="btn" href="#experience-en">View experience</a>
         <a class="btn ghost" href="#contact-en">Get in touch</a>
       </div>
     </div>
   </div>
 </div>
+
+<div class="marquee" aria-hidden="true"><div class="marquee-track"><span>BigQuery</span><span>SQL</span><span>Python</span><span>Apps Script</span><span>GA4</span><span>GTM</span><span>Looker Studio</span><span>Claude API</span><span>Meta Ads API</span><span>n8n</span><span>SuperSet</span><span>XGBoost</span><span>SHAP</span><span>LSTM</span><span>BigQuery</span><span>SQL</span><span>Python</span><span>Apps Script</span><span>GA4</span><span>GTM</span><span>Looker Studio</span><span>Claude API</span><span>Meta Ads API</span><span>n8n</span><span>SuperSet</span><span>XGBoost</span><span>SHAP</span><span>LSTM</span></div></div>
 
 <section id="about-en">
   <div class="wrap sec">
@@ -659,9 +725,64 @@ footer { padding-block: 26px; font-size: 13px; color: var(--muted); font-family:
   </div>
 </section>
 
+<section id="skills-en">
+  <div class="wrap sec">
+    <div class="sec-label"><h2>Skills</h2><p>Focused on tools used at work</p></div>
+    <div>
+      <div class="skills">
+        <div>
+          <h3>ETL &amp; Data Processing</h3>
+          <ul>
+            <li><span class="lv">Work</span><span>SQL <span class="x">Window functions, CTE</span></span></li>
+            <li><span class="lv">Work</span><span>Python <span class="x">Preprocessing, modeling</span></span></li>
+            <li><span class="lv">Work</span><span>BigQuery <span class="x">Data mart design, scheduled queries</span></span></li>
+            <li><span class="lv p">Project</span><span>PySpark <span class="x">Large-scale preprocessing</span></span></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Automation</h3>
+          <ul>
+            <li><span class="lv">Work</span><span>Google Apps Script <span class="x">Sheets automation</span></span></li>
+            <li><span class="lv">Work</span><span>n8n <span class="x">Workflow automation</span></span></li>
+            <li><span class="lv">Work</span><span>Meta Ads API · Google Ads <span class="x">Automated ad data collection</span></span></li>
+            <li><span class="lv">Work</span><span>Claude API · Google Chat <span class="x">LLM chatbot integration</span></span></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Dashboard &amp; Visualization</h3>
+          <ul>
+            <li><span class="lv">Work</span><span>Looker Studio <span class="x">Parameters, cross-filtering</span></span></li>
+            <li><span class="lv">Work</span><span>SuperSet <span class="x">SQL datasets</span></span></li>
+            <li><span class="lv p">Project</span><span>Tableau</span></li>
+          </ul>
+        </div>
+        <div>
+          <h3>Marketing &amp; Analytics</h3>
+          <ul>
+            <li><span class="lv">Work</span><span>GA4 · GTM <span class="x">Event design, user behavior analysis</span></span></li>
+            <li><span class="lv">Work</span><span>Excel <span class="x">Financial models, ROAS simulation</span></span></li>
+            <li><span class="lv p">Project</span><span>XGBoost · LSTM · SHAP <span class="x">ML/DL modeling</span></span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="education-en">
+  <div class="wrap sec">
+    <div class="sec-label"><h2>Education</h2></div>
+    <div class="edu">
+      <div><h3>Ewha Womans University, Graduate School of Data Science</h3><p>M.S. · 2023.09 – 2025.08<br>GPA 4.18 / 4.30 · 1st place capstone scholarship</p></div>
+      <div><h3>Hongik University, Arts &amp; Cultural Management</h3><p>B.A. · 2016.03 – 2021.02<br>GPA 4.11 / 4.50</p></div>
+      <div><h3>Certifications · Languages</h3><p>ADsP (Advanced Data Analytics Semi-Professional)<br>TOEFL iBT 5.0 (100 on the previous scale) · TOEIC 920 · French B1</p></div>
+    </div>
+  </div>
+</section>
+
 <section id="experience-en">
   <div class="wrap sec">
-    <div class="sec-label"><h2>Experience</h2><p>4 years 11 months in total</p></div>
+    <div class="sec-label"><h2>Experience</h2><p>4 years 11 months in total<br><span class="ct-hint">Open a case study under each role</span></p></div>
     <div class="timeline">
       <div class="job">
         <div class="when"><span class="now">2026.10 – Present</span></div>
@@ -674,6 +795,19 @@ footer { padding-block: 26px; font-size: 13px; color: var(--muted); font-family:
             <li>Broke down the gap between management and accounting operating profit into revenue timing, ad-cost timing and payroll classification</li>
             <li>Built a P&amp;L chatbot (MVP) connecting the Claude API to Google Chat, sending monthly P&amp;L summaries and answering P&amp;L questions</li>
           </ul>
+          <div class="case-list">
+<details class="case-toggle"><summary><span class="ct-label">Case study</span><span class="ct-title">P&amp;L web app and Google Chat P&amp;L bot</span></summary>
+<article class="case case-in">
+        <div class="tags"><span class="tag">BigQuery</span><span class="tag">Apps Script</span><span class="tag">Claude API</span><span class="tag">Google Chat</span></div>
+        <dl class="star">
+          <dt>Context</dt><dd>Clients prepaid while ad spend settled later by card, so operating income on the tax ledger swung sharply month to month. Invoices, ledger and bank records lived apart, and missing invoices or payments were matched by hand.</dd>
+          <dt>Action</dt><dd>Layered five sources into RAW → STG → MART with a three-way reconciliation (accrued → invoiced → received) and a bridge between management and accounting operating income, then shipped a CEO-facing web app for open items, planning and scenarios.</dd>
+          <dt>AI</dt><dd>Built a Google Chat P&amp;L bot that posts a summary card when a month closes and answers questions using only figures already computed in BigQuery, with Claude explaining rather than calculating. A cached summary keeps replies within Chat's 30-second limit.</dd>
+          <dt>Result</dt><dd class="result">Automated review matched the manual September operating-income variance <b>to the won</b> and surfaced <b>5</b> ledger misclassifications. Bot answers matched the cards and formulas. MVP pilot running; impact not yet measured.</dd>
+        </dl>
+      </article>
+</details>
+          </div>
         </div>
       </div>
       <div class="job">
@@ -688,6 +822,20 @@ footer { padding-block: 26px; font-size: 13px; color: var(--muted); font-family:
             <li>Ran the GA4 and BigQuery dashboard and conversion tracking for ID Hospital, Global Business</li>
             <li>Key clients: DA Plastic Surgery (global), Moaman Clinic, Jjang Korean Medicine Clinic, a manual therapy clinic network (6 branches), a toenail care clinic network (12 branches)</li>
           </ul>
+          <div class="case-list">
+<details class="case-toggle"><summary><span class="ct-label">Case study</span><span class="ct-title">A/B testing conversion paths cut cost per booking 40%</span></summary>
+<article class="case case-in">
+        <div class="tags"><span class="tag">Meta Ads</span><span class="tag">A/B Test</span><span class="tag">UTM</span><span class="tag">Funnel</span></div>
+        <dl class="star">
+          <dt>Context</dt><dd>A Korean medicine clinic's ads produced a steady flow of event sign-ups (leads), but only about 7% turned into bookings. Performance was judged on lead count and cost per lead alone, so budget could be going to paths that never reached a booking.</dd>
+          <dt>Hypothesis</dt><dd>Compared with in-ad lead forms, a landing page where people read about the treatment and offer before signing up would cost more per lead but convert to bookings at a higher rate, making each booking cheaper.</dd>
+          <dt>Test</dt><dd>Ran two campaigns with the same creative and targeting, differing only in conversion path, side by side for a month, and tracked each path from lead to booking with UTMs. Booking rate was set as the primary metric and cost per booking as secondary before launch, and results were read two weeks after the test ended so bookings could settle. Lead forms brought 555 leads at ₩31,457 each and the landing page 126 at ₩77,334, but booking rates were <b>4% vs 20%</b>, a statistically significant gap, putting cost per booking at about ₩790K vs ₩390K.</dd>
+          <dt>Action</dt><dd>The next month I shifted spend toward the landing page (126 → 293 leads, lead forms 555 → 210) and optimized it, bringing its cost per lead down 28% from ₩77,334 to ₩55,547.</dd>
+          <dt>Result</dt><dd class="result">Leads fell from 681 to 503, yet bookings rose <b>41%</b> (47 → 67), the booking rate went from about 7% to <b>13%</b>, ad spend dropped <b>16%</b> (about ₩27.2M → ₩22.9M) and cost per booking fell <b>40%</b> (about ₩570K → ₩340K).</dd>
+        </dl>
+      </article>
+</details>
+          </div>
         </div>
       </div>
       <div class="job">
@@ -702,6 +850,30 @@ footer { padding-block: 26px; font-size: 13px; color: var(--muted); font-family:
           <div class="sub">
             <div><b>Reboot Inc.</b> <span>· 2025.09 – 10 · Automated ad data collection, integrated revenue and cost dashboard</span></div>
             <div><b>ID Hospital, Global Business</b> <span>· 2025.07 – 12 · Project with Containers Inc., continued as team lead in 2026 · GA4 and BigQuery user dashboard, GTM conversion tracking, booking funnel improvement proposal</span></div>
+          </div>
+          <div class="case-list">
+<details class="case-toggle"><summary><span class="ct-label">Case study</span><span class="ct-title">Automating and productizing Meta Ads reporting</span></summary>
+<article class="case case-in">
+        <div class="tags"><span class="tag">Meta Graph API</span><span class="tag">Apps Script</span><span class="tag">Productization</span></div>
+        <dl class="star">
+          <dt>Context</dt><dd>Agency marketers downloaded Meta Ads Manager exports for each client and built reports by hand. Reports ran late, and the same "inquiry" or "purchase" was counted differently from client to client.</dd>
+          <dt>Action</dt><dd>Loaded a daily campaign report and a 34-metric creative report from the Graph API every day, standardized conversion events through action_type candidates, and backfilled missing purchase ROAS as purchase value ÷ spend.</dd>
+          <dt>Design</dt><dd>Split the system into three tiers (central library → per-client script → client sheet), keeping the collection logic protected and reducing client onboarding to a copy.</dd>
+          <dt>Result</dt><dd class="result">Adopted by <b>2 ad agencies</b> across <b>15 client businesses</b>. Sold as an in-house product with Light, Growth and Enterprise tiers.</dd>
+        </dl>
+      </article>
+</details>
+<details class="case-toggle"><summary><span class="ct-label">Case study</span><span class="ct-title">Detecting drop-off signals in a booking funnel</span></summary>
+<article class="case case-in">
+        <div class="tags"><span class="tag">GA4 · GTM</span><span class="tag">BigQuery</span><span class="tag">Welch's t-test</span></div>
+        <dl class="star">
+          <dt>Context</dt><dd>In a four-step booking funnel, users with strong intent were leaving just before the final step.</dd>
+          <dt>Analysis</dt><dd>Compared button clicks between step-3 drop-offs and completed bookings: 3.30 clicks on average versus 1.83, a significant difference (p = 0.0448).</dd>
+          <dt>Proposal</dt><dd>Defined three or more clicks as a friction signal and designed a two-week 50:50 A/B test that shows a consultation CTA when it fires.</dd>
+          <dt>Result</dt><dd class="result">A <b>live user dashboard</b> running from GA4 event design through BigQuery preprocessing to Looker Studio.</dd>
+        </dl>
+      </article>
+</details>
           </div>
         </div>
       </div>
@@ -728,55 +900,9 @@ footer { padding-block: 26px; font-size: 13px; color: var(--muted); font-family:
             <li><b>Data Part Lead</b> (2023.01–08): Set up the new data part and promoted to lead, introduced BigQuery and built the data mart, CRM data management</li>
             <li><b>Performance Marketing</b> (2021.12–2023.01): Marketing mix, funnel-stage metrics, campaign A/B testing</li>
           </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="impact-en">
-  <div class="wrap sec">
-    <div class="sec-label"><h2>Impact in numbers</h2><p>Measured results from work and projects</p></div>
-    <div class="impact">
-      <div class="metric"><div class="v">+8<small>%p</small></div><div class="d">Hospital visit rate</div><div class="s">Visit-intent hurdle A/B test</div></div>
-      <div class="metric"><div class="v">−10<small>%p</small></div><div class="d">Duplicate sign-up rate</div><div class="s">Excluding past visitors from targeting</div></div>
-      <div class="metric"><div class="v">14→16<small>%</small></div><div class="d">TM conversion recovered</div><div class="s">Capped lead allocation by tier</div></div>
-      <div class="metric"><div class="v">45<small>%</small></div><div class="d">Data management efficiency</div><div class="s">BigQuery data mart · 1→3 hospitals per person</div></div>
-      <div class="metric"><div class="v">0.815</div><div class="d">Bankruptcy model AR</div><div class="s">Multi-head LSTM · 1st place capstone</div></div>
-      <div class="metric"><div class="v">6.6<small>×</small></div><div class="d">Sign-up rate</div><div class="s">Picurate growth project</div></div>
-    </div>
-  </div>
-</section>
-
-<section id="cases-en">
-  <div class="wrap sec">
-    <div class="sec-label"><h2>Case studies</h2><p>How each problem was defined and solved</p></div>
-    <div class="cases">
-
-      <article class="case">
-        <div class="case-top"><h3>P&amp;L web app and Google Chat P&amp;L bot</h3><span class="where">DataMentor · Containers business planning · 2026.10–</span></div>
-        <div class="tags"><span class="tag">BigQuery</span><span class="tag">Apps Script</span><span class="tag">Claude API</span><span class="tag">Google Chat</span></div>
-        <dl class="star">
-          <dt>Context</dt><dd>Clients prepaid while ad spend settled later by card, so operating income on the tax ledger swung sharply month to month. Invoices, ledger and bank records lived apart, and missing invoices or payments were matched by hand.</dd>
-          <dt>Action</dt><dd>Layered five sources into RAW → STG → MART with a three-way reconciliation (accrued → invoiced → received) and a bridge between management and accounting operating income, then shipped a CEO-facing web app for open items, planning and scenarios.</dd>
-          <dt>AI</dt><dd>Built a Google Chat P&amp;L bot that posts a summary card when a month closes and answers questions using only figures already computed in BigQuery, with Claude explaining rather than calculating. A cached summary keeps replies within Chat's 30-second limit.</dd>
-          <dt>Result</dt><dd class="result">Automated review matched the manual September operating-income variance <b>to the won</b> and surfaced <b>5</b> ledger misclassifications. Bot answers matched the cards and formulas. MVP pilot running; impact not yet measured.</dd>
-        </dl>
-      </article>
-
-      <article class="case">
-        <div class="case-top"><h3>Automating and productizing Meta Ads reporting</h3><span class="where">DataMentor · Meta AutoReport Kit · 2025–26</span></div>
-        <div class="tags"><span class="tag">Meta Graph API</span><span class="tag">Apps Script</span><span class="tag">Productization</span></div>
-        <dl class="star">
-          <dt>Context</dt><dd>Agency marketers downloaded Meta Ads Manager exports for each client and built reports by hand. Reports ran late, and the same "inquiry" or "purchase" was counted differently from client to client.</dd>
-          <dt>Action</dt><dd>Loaded a daily campaign report and a 34-metric creative report from the Graph API every day, standardized conversion events through action_type candidates, and backfilled missing purchase ROAS as purchase value ÷ spend.</dd>
-          <dt>Design</dt><dd>Split the system into three tiers (central library → per-client script → client sheet), keeping the collection logic protected and reducing client onboarding to a copy.</dd>
-          <dt>Result</dt><dd class="result">Adopted by <b>2 ad agencies</b> across <b>15 client businesses</b>. Sold as an in-house product with Light, Growth and Enterprise tiers.</dd>
-        </dl>
-      </article>
-
-      <article class="case">
-        <div class="case-top"><h3>Redesigning a trial promotion funnel</h3><span class="where">Leshine &amp; Partners (Medibuilder subsidiary) · 2024–25</span></div>
+          <div class="case-list">
+<details class="case-toggle"><summary><span class="ct-label">Case study</span><span class="ct-meta">2022 · Performance Marketing</span><span class="ct-title">Redesigning a trial promotion funnel</span></summary>
+<article class="case case-in">
         <div class="tags"><span class="tag">A/B Test</span><span class="tag">Cohort</span><span class="tag">Dashboard</span></div>
         <dl class="star">
           <dt>Context</dt><dd>The trial promotion had a low cost per lead, but few leads actually visited the hospital, so the real acquisition cost rose. Most buyers chose low-priced products, pushing average order value down.</dd>
@@ -785,9 +911,29 @@ footer { padding-block: 26px; font-size: 13px; color: var(--muted); font-family:
           <dt>Result</dt><dd class="result">Hospital visit rate <b>+8%p</b>, duplicate sign-ups <b>−10%p</b>. Campaigns restructured around qualified leads.</dd>
         </dl>
       </article>
-
-      <article class="case">
-        <div class="case-top"><h3>Diagnosing a telemarketing conversion drop</h3><span class="where">Leshine &amp; Partners (Medibuilder subsidiary) · 2024–25</span></div>
+</details>
+<details class="case-toggle"><summary><span class="ct-label">Case study</span><span class="ct-meta">2023 · Data Team</span><span class="ct-title">Building a BigQuery data mart</span></summary>
+<article class="case case-in">
+        <div class="tags"><span class="tag">BigQuery</span><span class="tag">SQL</span><span class="tag">Looker Studio</span></div>
+        <dl class="star">
+          <dt>Context</dt><dd>Data was scattered across hospitals, making combined analysis hard and accuracy low.</dd>
+          <dt>Action</dt><dd>Designed a pipeline joining customer, marketing and hospital data, and ran a funnel dashboard on payment rate and ROAS by cohort along with a weekly insight report.</dd>
+          <dt>Result</dt><dd class="result">Data management efficiency up <b>45%</b>, scope per person from <b>1 to 3 hospitals</b>.</dd>
+        </dl>
+      </article>
+</details>
+<details class="case-toggle"><summary><span class="ct-label">Case study</span><span class="ct-meta">2024 · HQ Finance &amp; Strategy</span><span class="ct-title">Target ROAS based on contribution margin</span></summary>
+<article class="case case-in">
+        <div class="tags"><span class="tag">FP&amp;A</span><span class="tag">BEP</span><span class="tag">Simulation</span></div>
+        <dl class="star">
+          <dt>Context</dt><dd>ROAS was judged on ad spend alone, ignoring fixed and variable costs. Profitable centers spent cautiously while less profitable ones kept spending.</dd>
+          <dt>Action</dt><dd>Separated fixed and variable costs per business, designed contribution-margin ROAS per campaign, and built break-even and target ROAS guidelines with a budget reallocation simulation.</dd>
+          <dt>Result</dt><dd class="result">A <b>ROAS operating standard</b> that separates each center's structural profit limits from its room to invest.</dd>
+        </dl>
+      </article>
+</details>
+<details class="case-toggle"><summary><span class="ct-label">Case study</span><span class="ct-meta">2024 · Leshine &amp; Partners</span><span class="ct-title">Diagnosing a telemarketing conversion drop</span></summary>
+<article class="case case-in">
         <div class="tags"><span class="tag">Funnel Analysis</span><span class="tag">Interview</span><span class="tag">Ops Design</span></div>
         <dl class="star">
           <dt>Context</dt><dd>Conversion had held around 16% but stayed at 14% for three months, and did not recover even after new counselors were hired.</dd>
@@ -796,38 +942,10 @@ footer { padding-block: 26px; font-size: 13px; color: var(--muted); font-family:
           <dt>Result</dt><dd class="result">Conversion back to <b>15–16%</b>, with a mentoring process for new counselors in place.</dd>
         </dl>
       </article>
-
-      <article class="case">
-        <div class="case-top"><h3>Target ROAS based on contribution margin</h3><span class="where">Medibuilder HQ Finance &amp; Strategy · 2023–24</span></div>
-        <div class="tags"><span class="tag">FP&amp;A</span><span class="tag">BEP</span><span class="tag">Simulation</span></div>
-        <dl class="star">
-          <dt>Context</dt><dd>ROAS was judged on ad spend alone, ignoring fixed and variable costs. Profitable centers spent cautiously while less profitable ones kept spending.</dd>
-          <dt>Action</dt><dd>Separated fixed and variable costs per business, designed contribution-margin ROAS per campaign, and built break-even and target ROAS guidelines with a budget reallocation simulation.</dd>
-          <dt>Result</dt><dd class="result">A <b>ROAS operating standard</b> that separates each center's structural profit limits from its room to invest.</dd>
-        </dl>
-      </article>
-
-      <article class="case">
-        <div class="case-top"><h3>Detecting drop-off signals in a booking funnel</h3><span class="where">ID Hospital, Global Business · 2025</span></div>
-        <div class="tags"><span class="tag">GA4 · GTM</span><span class="tag">BigQuery</span><span class="tag">Welch's t-test</span></div>
-        <dl class="star">
-          <dt>Context</dt><dd>In a four-step booking funnel, users with strong intent were leaving just before the final step.</dd>
-          <dt>Analysis</dt><dd>Compared button clicks between step-3 drop-offs and completed bookings: 3.30 clicks on average versus 1.83, a significant difference (p = 0.0448).</dd>
-          <dt>Proposal</dt><dd>Defined three or more clicks as a friction signal and designed a two-week 50:50 A/B test that shows a consultation CTA when it fires.</dd>
-          <dt>Result</dt><dd class="result">A <b>live user dashboard</b> running from GA4 event design through BigQuery preprocessing to Looker Studio.</dd>
-        </dl>
-      </article>
-
-      <article class="case">
-        <div class="case-top"><h3>Building a BigQuery data mart</h3><span class="where">Medibuilder Performance Marketing · 2023</span></div>
-        <div class="tags"><span class="tag">BigQuery</span><span class="tag">SQL</span><span class="tag">Looker Studio</span></div>
-        <dl class="star">
-          <dt>Context</dt><dd>Data was scattered across hospitals, making combined analysis hard and accuracy low.</dd>
-          <dt>Action</dt><dd>Designed a pipeline joining customer, marketing and hospital data, and ran a funnel dashboard on payment rate and ROAS by cohort along with a weekly insight report.</dd>
-          <dt>Result</dt><dd class="result">Data management efficiency up <b>45%</b>, scope per person from <b>1 to 3 hospitals</b>.</dd>
-        </dl>
-      </article>
-
+</details>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -836,50 +954,6 @@ footer { padding-block: 26px; font-size: 13px; color: var(--muted); font-family:
   <div class="wrap sec">
     <div class="sec-label"><h2>Project portfolio</h2><p>Select a project to view its slides</p></div>
     <div class="pf-grid" data-lang="en"></div>
-  </div>
-</section>
-
-<section id="skills-en">
-  <div class="wrap sec">
-    <div class="sec-label"><h2>Skills</h2><p>Focused on tools used at work</p></div>
-    <div>
-      <div class="skills">
-        <div>
-          <h3>ETL &amp; Data Processing</h3>
-          <ul>
-            <li><span class="lv">Work</span><span>SQL <span class="x">· Window functions, CTE</span></span></li>
-            <li><span class="lv">Work</span><span>Python <span class="x">· Preprocessing, modeling</span></span></li>
-            <li><span class="lv">Work</span><span>BigQuery <span class="x">· Data mart design, scheduled queries</span></span></li>
-            <li><span class="lv p">Project</span><span>PySpark <span class="x">· Large-scale preprocessing</span></span></li>
-          </ul>
-        </div>
-        <div>
-          <h3>Automation</h3>
-          <ul>
-            <li><span class="lv">Work</span><span>Google Apps Script <span class="x">· Sheets automation</span></span></li>
-            <li><span class="lv">Work</span><span>n8n <span class="x">· Workflow automation</span></span></li>
-            <li><span class="lv">Work</span><span>Meta Ads API · Google Ads <span class="x">· Automated ad data collection</span></span></li>
-            <li><span class="lv">Work</span><span>Claude API · Google Chat <span class="x">· LLM chatbot integration</span></span></li>
-          </ul>
-        </div>
-        <div>
-          <h3>Dashboard &amp; Visualization</h3>
-          <ul>
-            <li><span class="lv">Work</span><span>Looker Studio <span class="x">· Parameters, cross-filtering</span></span></li>
-            <li><span class="lv">Work</span><span>SuperSet <span class="x">· SQL datasets</span></span></li>
-            <li><span class="lv p">Project</span><span>Tableau</span></li>
-          </ul>
-        </div>
-        <div>
-          <h3>Marketing &amp; Analytics</h3>
-          <ul>
-            <li><span class="lv">Work</span><span>GA4 · GTM <span class="x">· Event design, user behavior analysis</span></span></li>
-            <li><span class="lv">Work</span><span>Excel <span class="x">· Financial models, ROAS simulation</span></span></li>
-            <li><span class="lv p">Project</span><span>XGBoost · LSTM · SHAP <span class="x">· ML/DL modeling</span></span></li>
-          </ul>
-        </div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -920,17 +994,6 @@ footer { padding-block: 26px; font-size: 13px; color: var(--muted); font-family:
         <h3>Newsletter service growth</h3>
         <p>Personas, a landing page connected to GA, and A/B-tested Facebook ads. Open rate <span class="hl">+16%p</span>.</p>
       </div>
-    </div>
-  </div>
-</section>
-
-<section id="education-en">
-  <div class="wrap sec">
-    <div class="sec-label"><h2>Education</h2></div>
-    <div class="edu">
-      <div><h3>Ewha Womans University, Graduate School of Data Science</h3><p>M.S. · 2023.09 – 2025.08<br>GPA 4.18 / 4.30 · 1st place capstone scholarship</p></div>
-      <div><h3>Hongik University, Arts &amp; Cultural Management</h3><p>B.A. · 2016.03 – 2021.02<br>GPA 4.11 / 4.50</p></div>
-      <div><h3>Certifications · Languages</h3><p>ADsP (Advanced Data Analytics Semi-Professional)<br>TOEFL iBT 5.0 (100 on the previous scale) · TOEIC 920 · French B1</p></div>
     </div>
   </div>
 </section>
@@ -1049,7 +1112,7 @@ document.querySelectorAll('.copy').forEach(function (b) { b.addEventListener('cl
 
 (function () {
   var dlg = document.getElementById('pf-dialog');
-  var T = { ko: { slides: '장', more: '자세히 보기 →', close: '닫기' }, en: { slides: 'slides', more: 'View slides →', close: 'Close' } };
+  var T = { ko: { slides: '장', more: '자세히 보기', close: '닫기' }, en: { slides: 'slides', more: 'View project', close: 'Close' } };
   function el(tag, cls, txt) { var e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
   function open(p, lang) {
     document.getElementById('pf-meta').textContent = p.when + ' · ' + p.org[lang];
@@ -1080,8 +1143,10 @@ document.querySelectorAll('.copy').forEach(function (b) { b.addEventListener('cl
       var th = el('div', 'pf-thumb'); var im = el('img'); im.src = imgUrl(p.thumb, 800); im.alt = ''; th.appendChild(im);
       th.appendChild(el('span', 'pf-count', p.slides.length + ' ' + T[lang].slides));
       var info = el('div', 'pf-info');
-      info.appendChild(el('div', 'pf-when', p.when + ' · ' + p.org[lang]));
+      info.appendChild(el('div', 'pf-no', String(grid.children.length + 1).padStart(2, '0')));
       info.appendChild(el('h3', null, p.title[lang]));
+      info.appendChild(el('div', 'pf-when', p.when + ' · ' + p.org[lang]));
+      var ct = el('div', 'pf-ctags'); p.tools.slice(0, 3).forEach(function (t) { ct.appendChild(el('span', 'tag', t)); }); info.appendChild(ct);
       info.appendChild(el('div', 'pf-more', T[lang].more));
       b.appendChild(th); b.appendChild(info);
       b.addEventListener('click', function () { open(p, lang); });
@@ -1115,4 +1180,57 @@ document.querySelectorAll('.lang-btn').forEach(function (b) {
 })();
 </script>
 
+<script>
+// Draft v2 motion: hero word reveal, scroll reveal, count-up
+(function () {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('.hero h1').forEach(function (h1) {
+    var i = 0;
+    (function wrap(node) {
+      Array.prototype.slice.call(node.childNodes).forEach(function (n) {
+        if (n.nodeType === 3) {
+          var frag = document.createDocumentFragment();
+          n.textContent.split(/(\s+)/).forEach(function (part) {
+            if (!part) return;
+            if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+            var s = document.createElement('span'); s.className = 'w'; s.textContent = part;
+            s.style.animationDelay = (0.08 * i++) + 's'; frag.appendChild(s);
+          });
+          node.replaceChild(frag, n);
+        } else if (n.nodeType === 1 && n.tagName !== 'BR') {
+          if (n.tagName === 'EM') { n.classList.add('w'); n.style.animationDelay = (0.08 * i++) + 's'; } else wrap(n);
+        }
+      });
+    })(h1);
+  });
+  if (reduce || !('IntersectionObserver' in window)) return;
+  var targets = document.querySelectorAll('.sec-label, .statement, .pillar, .job, .metric, .pf-card, .skills > div, .proj, .edu > div');
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('in'); io.unobserve(e.target);
+      if (e.target.classList.contains('metric')) countUp(e.target.querySelector('.v'));
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  targets.forEach(function (t, k) { t.classList.add('reveal'); t.style.transitionDelay = (k % 3) * 0.08 + 's'; io.observe(t); });
+  function countUp(v) {
+    if (!v || !v.firstChild || v.firstChild.nodeType !== 3) return;
+    var m = v.firstChild.textContent.match(/^([+−-]?)(\d+(?:\.\d+)?)$/); if (!m) return;
+    var sign = m[1], end = parseFloat(m[2]), dec = (m[2].split('.')[1] || '').length, t0 = null, node = v.firstChild;
+    function step(ts) { if (!t0) t0 = ts; var p = Math.min(1, (ts - t0) / 1100), e = 1 - Math.pow(1 - p, 3);
+      node.textContent = sign + (end * e).toFixed(dec); if (p < 1) requestAnimationFrame(step); }
+    requestAnimationFrame(step);
+  }
+  // re-observe after language switch so the newly shown half animates in too
+  document.querySelectorAll('.lang-btn, [data-pick]').forEach(function (b) { b.addEventListener('click', function () {
+    setTimeout(function () { targets.forEach(function (t) { if (!t.classList.contains('in')) { io.unobserve(t); io.observe(t); } }); }, 50);
+  }); });
+})();
+</script>
+
+
+<script>
+(function(){ function f(){ var s = window.scrollY > 8; document.querySelectorAll('.topbar').forEach(function(t){ t.classList.toggle('is-stuck', s); }); }
+  window.addEventListener('scroll', f, {passive:true}); f(); })();
+</script>
 </body></html>
