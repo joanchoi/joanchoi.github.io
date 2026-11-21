@@ -177,13 +177,18 @@ section { border-top: 1px solid var(--line); padding-block: 64px; }
 .sub div span { color: var(--muted); }
 
 /* Skills */
-.skills { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px 36px; }
-.skills h3 { font-size: 15px; font-weight: 600; margin-bottom: 10px; }
-.skills ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
-.skills li { display: grid; grid-template-columns: auto 1fr; gap: 10px; font-size: 15px; align-items: baseline; }
-.lv { font-family: var(--f-mono); font-size: 11px; padding: 1px 6px; border-radius: 3px; border: 1px solid var(--teal); color: var(--teal); }
-.lv.p { border-color: var(--line); color: var(--muted); }
-.skills li span.x { color: var(--muted); }
+.skills { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; counter-reset: sk; }
+.skills > div { counter-increment: sk; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px 14px; transition: border-color .2s, transform .2s; }
+.skills > div:hover { border-color: var(--teal); transform: translateY(-2px); }
+.skills h3 { display: flex; align-items: baseline; gap: 10px; font-size: 16px; font-weight: 600; padding-bottom: 12px; margin-bottom: 4px; border-bottom: 1px solid var(--line); }
+.skills h3::before { content: counter(sk, decimal-leading-zero); font-family: var(--f-mono); font-size: 12px; font-weight: 500; color: var(--orange); }
+.skills ul { list-style: none; margin: 0; padding: 0; display: grid; }
+.skills li { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 0; font-size: 15px; font-weight: 500; border-bottom: 1px dashed var(--line); }
+.skills li:last-child { border-bottom: 0; }
+.skills li > .lv { order: 2; flex: none; }
+.skills li span.x { display: block; margin-top: 1px; font-size: 13px; font-weight: 400; color: var(--muted); }
+.lv { font-family: var(--f-mono); font-size: 11px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--teal); color: var(--teal); background: color-mix(in srgb, var(--teal) 10%, transparent); }
+.lv.p { border-color: var(--line); color: var(--muted); background: transparent; }
 .legend { margin-top: 24px; font-size: 13px; color: var(--muted); display: flex; gap: 16px; flex-wrap: wrap; }
 
 /* Projects */
@@ -385,35 +390,35 @@ footer { padding-block: 26px; font-size: 13px; color: var(--muted); font-family:
         <div>
           <h3>ETL &amp; Data Processing</h3>
           <ul>
-            <li><span class="lv">실무</span><span>SQL <span class="x">· Window, CTE</span></span></li>
-            <li><span class="lv">실무</span><span>Python <span class="x">· 전처리, 모델링</span></span></li>
-            <li><span class="lv">실무</span><span>BigQuery <span class="x">· 데이터마트 설계, 쿼리 스케줄링</span></span></li>
-            <li><span class="lv p">프로젝트</span><span>PySpark <span class="x">· 대용량 전처리</span></span></li>
+            <li><span class="lv">실무</span><span>SQL <span class="x">Window, CTE</span></span></li>
+            <li><span class="lv">실무</span><span>Python <span class="x">전처리, 모델링</span></span></li>
+            <li><span class="lv">실무</span><span>BigQuery <span class="x">데이터마트 설계, 쿼리 스케줄링</span></span></li>
+            <li><span class="lv p">프로젝트</span><span>PySpark <span class="x">대용량 전처리</span></span></li>
           </ul>
         </div>
         <div>
           <h3>Automation</h3>
           <ul>
-            <li><span class="lv">실무</span><span>Google Apps Script <span class="x">· 시트 자동화</span></span></li>
-            <li><span class="lv">실무</span><span>n8n <span class="x">· 워크플로우 자동화</span></span></li>
-            <li><span class="lv">실무</span><span>Meta Ads API · Google Ads <span class="x">· 광고 데이터 자동 수집</span></span></li>
-            <li><span class="lv">실무</span><span>Claude API · Google Chat <span class="x">· LLM 챗봇 연동</span></span></li>
+            <li><span class="lv">실무</span><span>Google Apps Script <span class="x">시트 자동화</span></span></li>
+            <li><span class="lv">실무</span><span>n8n <span class="x">워크플로우 자동화</span></span></li>
+            <li><span class="lv">실무</span><span>Meta Ads API · Google Ads <span class="x">광고 데이터 자동 수집</span></span></li>
+            <li><span class="lv">실무</span><span>Claude API · Google Chat <span class="x">LLM 챗봇 연동</span></span></li>
           </ul>
         </div>
         <div>
           <h3>Dashboard &amp; Visualization</h3>
           <ul>
-            <li><span class="lv">실무</span><span>Looker Studio <span class="x">· 매개변수, 교차필터링</span></span></li>
-            <li><span class="lv">실무</span><span>SuperSet <span class="x">· SQL 기반 데이터셋</span></span></li>
+            <li><span class="lv">실무</span><span>Looker Studio <span class="x">매개변수, 교차필터링</span></span></li>
+            <li><span class="lv">실무</span><span>SuperSet <span class="x">SQL 기반 데이터셋</span></span></li>
             <li><span class="lv p">프로젝트</span><span>Tableau</span></li>
           </ul>
         </div>
         <div>
           <h3>Marketing &amp; Analytics</h3>
           <ul>
-            <li><span class="lv">실무</span><span>GA4 · GTM <span class="x">· 로그 설계, 유저 행동 분석</span></span></li>
-            <li><span class="lv">실무</span><span>Excel <span class="x">· 파이낸셜, ROAS 시뮬레이션</span></span></li>
-            <li><span class="lv p">프로젝트</span><span>XGBoost · LSTM · SHAP <span class="x">· ML/DL 모델링</span></span></li>
+            <li><span class="lv">실무</span><span>GA4 · GTM <span class="x">로그 설계, 유저 행동 분석</span></span></li>
+            <li><span class="lv">실무</span><span>Excel <span class="x">파이낸셜, ROAS 시뮬레이션</span></span></li>
+            <li><span class="lv p">프로젝트</span><span>XGBoost · LSTM · SHAP <span class="x">ML/DL 모델링</span></span></li>
           </ul>
         </div>
       </div>
@@ -711,35 +716,35 @@ footer { padding-block: 26px; font-size: 13px; color: var(--muted); font-family:
         <div>
           <h3>ETL &amp; Data Processing</h3>
           <ul>
-            <li><span class="lv">Work</span><span>SQL <span class="x">· Window functions, CTE</span></span></li>
-            <li><span class="lv">Work</span><span>Python <span class="x">· Preprocessing, modeling</span></span></li>
-            <li><span class="lv">Work</span><span>BigQuery <span class="x">· Data mart design, scheduled queries</span></span></li>
-            <li><span class="lv p">Project</span><span>PySpark <span class="x">· Large-scale preprocessing</span></span></li>
+            <li><span class="lv">Work</span><span>SQL <span class="x">Window functions, CTE</span></span></li>
+            <li><span class="lv">Work</span><span>Python <span class="x">Preprocessing, modeling</span></span></li>
+            <li><span class="lv">Work</span><span>BigQuery <span class="x">Data mart design, scheduled queries</span></span></li>
+            <li><span class="lv p">Project</span><span>PySpark <span class="x">Large-scale preprocessing</span></span></li>
           </ul>
         </div>
         <div>
           <h3>Automation</h3>
           <ul>
-            <li><span class="lv">Work</span><span>Google Apps Script <span class="x">· Sheets automation</span></span></li>
-            <li><span class="lv">Work</span><span>n8n <span class="x">· Workflow automation</span></span></li>
-            <li><span class="lv">Work</span><span>Meta Ads API · Google Ads <span class="x">· Automated ad data collection</span></span></li>
-            <li><span class="lv">Work</span><span>Claude API · Google Chat <span class="x">· LLM chatbot integration</span></span></li>
+            <li><span class="lv">Work</span><span>Google Apps Script <span class="x">Sheets automation</span></span></li>
+            <li><span class="lv">Work</span><span>n8n <span class="x">Workflow automation</span></span></li>
+            <li><span class="lv">Work</span><span>Meta Ads API · Google Ads <span class="x">Automated ad data collection</span></span></li>
+            <li><span class="lv">Work</span><span>Claude API · Google Chat <span class="x">LLM chatbot integration</span></span></li>
           </ul>
         </div>
         <div>
           <h3>Dashboard &amp; Visualization</h3>
           <ul>
-            <li><span class="lv">Work</span><span>Looker Studio <span class="x">· Parameters, cross-filtering</span></span></li>
-            <li><span class="lv">Work</span><span>SuperSet <span class="x">· SQL datasets</span></span></li>
+            <li><span class="lv">Work</span><span>Looker Studio <span class="x">Parameters, cross-filtering</span></span></li>
+            <li><span class="lv">Work</span><span>SuperSet <span class="x">SQL datasets</span></span></li>
             <li><span class="lv p">Project</span><span>Tableau</span></li>
           </ul>
         </div>
         <div>
           <h3>Marketing &amp; Analytics</h3>
           <ul>
-            <li><span class="lv">Work</span><span>GA4 · GTM <span class="x">· Event design, user behavior analysis</span></span></li>
-            <li><span class="lv">Work</span><span>Excel <span class="x">· Financial models, ROAS simulation</span></span></li>
-            <li><span class="lv p">Project</span><span>XGBoost · LSTM · SHAP <span class="x">· ML/DL modeling</span></span></li>
+            <li><span class="lv">Work</span><span>GA4 · GTM <span class="x">Event design, user behavior analysis</span></span></li>
+            <li><span class="lv">Work</span><span>Excel <span class="x">Financial models, ROAS simulation</span></span></li>
+            <li><span class="lv p">Project</span><span>XGBoost · LSTM · SHAP <span class="x">ML/DL modeling</span></span></li>
           </ul>
         </div>
       </div>
