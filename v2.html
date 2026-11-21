@@ -54,6 +54,10 @@ h1, h2, h3 { text-wrap: balance; margin: 0; }
 p { margin: 0; }
 
 /* ---------- Header ---------- */
+.topbar { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--bg) 86%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid transparent; transition: border-color .2s; }
+.topbar.is-stuck { border-bottom-color: var(--line); }
+.topbar .top { padding-block: 16px; }
+html { scroll-padding-top: 80px; }
 .top { padding-block: 22px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
 .top .id { font-family: var(--f-mono); font-size: 13px; color: var(--muted); letter-spacing: .02em; }
 .top-right { display: flex; align-items: center; gap: 20px; }
@@ -315,8 +319,7 @@ footer { padding-block: 26px; font-size: 13px; color: var(--muted); font-family:
 </div>
 
 <div class="lang-ko" lang="ko" hidden>
-<div class="wrap">
-  <header class="top">
+<header class="topbar"><div class="wrap"><div class="top">
     <div class="id">CHOI JIIN · DATA ANALYST</div>
     <div class="top-right">
       <nav aria-label="섹션">
@@ -329,7 +332,8 @@ footer { padding-block: 26px; font-size: 13px; color: var(--muted); font-family:
       </nav>
       <div class="lang-seg" role="group" aria-label="언어 선택"><button type="button" class="lang-btn" data-lang="ko" aria-pressed="true">KO</button><button type="button" class="lang-btn" data-lang="en" aria-pressed="false">EN</button></div>
     </div>
-  </header>
+  </div></div></header>
+<div class="wrap">
 
   <div class="hero">
     <div>
@@ -660,8 +664,7 @@ footer { padding-block: 26px; font-size: 13px; color: var(--muted); font-family:
 </div>
 
 <div class="lang-en" lang="en" hidden>
-<div class="wrap">
-  <header class="top">
+<header class="topbar"><div class="wrap"><div class="top">
     <div class="id">CHOI JIIN · DATA ANALYST</div>
     <div class="top-right">
       <nav aria-label="Sections">
@@ -674,7 +677,8 @@ footer { padding-block: 26px; font-size: 13px; color: var(--muted); font-family:
       </nav>
       <div class="lang-seg" role="group" aria-label="Language"><button type="button" class="lang-btn" data-lang="ko" aria-pressed="false">KO</button><button type="button" class="lang-btn" data-lang="en" aria-pressed="true">EN</button></div>
     </div>
-  </header>
+  </div></div></header>
+<div class="wrap">
 
   <div class="hero">
     <div>
@@ -1212,4 +1216,9 @@ document.querySelectorAll('.lang-btn').forEach(function (b) {
 })();
 </script>
 
+
+<script>
+(function(){ function f(){ var s = window.scrollY > 8; document.querySelectorAll('.topbar').forEach(function(t){ t.classList.toggle('is-stuck', s); }); }
+  window.addEventListener('scroll', f, {passive:true}); f(); })();
+</script>
 </body></html>
