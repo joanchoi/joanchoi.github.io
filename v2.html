@@ -136,12 +136,13 @@ section { border-top: 1px solid var(--line); padding-block: 64px; }
 /* Cases */
 .case-list { margin-top: 14px; display: grid; gap: 10px; }
 .case-toggle { border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
-.case-toggle > summary { list-style: none; cursor: pointer; display: flex; align-items: baseline; gap: 10px; padding: 12px 16px; font-size: 15px; font-weight: 600; color: var(--ink); }
+.case-toggle > summary { list-style: none; cursor: pointer; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; padding: 12px 16px; font-size: 15px; font-weight: 600; color: var(--ink); }
 .case-toggle > summary::-webkit-details-marker { display: none; }
 .case-toggle > summary::after { content: "+"; margin-left: auto; font-family: var(--f-mono); color: var(--teal); font-weight: 500; transition: transform .2s; }
 .case-toggle[open] > summary::after { transform: rotate(45deg); }
 .case-toggle > summary:hover .ct-title, .case-toggle > summary:focus-visible .ct-title { color: var(--teal); }
 .ct-label { flex: none; font-family: var(--f-mono); font-size: 11px; font-weight: 500; color: var(--orange); letter-spacing: .02em; }
+.ct-meta { flex: none; font-family: var(--f-mono); font-size: 11px; font-weight: 500; color: var(--teal); padding: 1px 8px; border-radius: 999px; background: color-mix(in srgb, var(--teal) 12%, transparent); }
 .ct-hint { font-size: 12px; color: var(--muted); }
 .case.case-in { background: transparent; border: 0; border-top: 1px solid var(--line); border-radius: 0; padding: 4px 16px 18px; }
 .case.case-in .tags { margin-top: 12px; }
@@ -547,7 +548,7 @@ footer { padding-block: 26px; font-size: 13px; color: var(--muted); font-family:
             <li><b>퍼포먼스마케팅</b> (2021.12–2023.01): 마케팅 믹스, 퍼널별 지표 관리, 캠페인 A/B 테스트</li>
           </ul>
           <div class="case-list">
-<details class="case-toggle"><summary><span class="ct-label">경력기술서</span><span class="ct-title">체험 프로모션 전환 퍼널 재설계</span></summary>
+<details class="case-toggle"><summary><span class="ct-label">경력기술서</span><span class="ct-meta">2022 · 퍼포먼스마케팅</span><span class="ct-title">체험 프로모션 전환 퍼널 재설계</span></summary>
 <article class="case case-in">
         <div class="tags"><span class="tag">A/B Test</span><span class="tag">Cohort</span><span class="tag">Dashboard</span></div>
         <dl class="star">
@@ -558,18 +559,17 @@ footer { padding-block: 26px; font-size: 13px; color: var(--muted); font-family:
         </dl>
       </article>
 </details>
-<details class="case-toggle"><summary><span class="ct-label">경력기술서</span><span class="ct-title">텔레마케팅 내원율 하락 원인 분석</span></summary>
+<details class="case-toggle"><summary><span class="ct-label">경력기술서</span><span class="ct-meta">2023 · 데이터파트</span><span class="ct-title">BigQuery 기반 데이터마트 구축</span></summary>
 <article class="case case-in">
-        <div class="tags"><span class="tag">Funnel Analysis</span><span class="tag">Interview</span><span class="tag">Ops Design</span></div>
+        <div class="tags"><span class="tag">BigQuery</span><span class="tag">SQL</span><span class="tag">Looker Studio</span></div>
         <dl class="star">
-          <dt>상황</dt><dd>16% 수준이던 전환율이 3개월간 14%에 머물렀고, 신규 상담원을 채용한 뒤에도 회복되지 않았습니다.</dd>
-          <dt>분석</dt><dd>상품별 예약률·전환율로 병목 구간을 찾고, TM팀 심층 인터뷰로 상담 실적과 무관하게 DB를 균등 분배하는 운영 방식을 원인으로 특정했습니다.</dd>
-          <dt>액션</dt><dd>신규 상담원에게 전환 가능성이 높은 상품을 우선 배정하고, 실적 등급별 DB 분배 상한선을 설정. 예약률·전환율을 경영 대시보드에 연동했습니다.</dd>
-          <dt>결과</dt><dd class="result">전환율 <b>15~16%</b> 수준으로 회복, 신규 상담원 멘토링 프로세스 정착.</dd>
+          <dt>상황</dt><dd>병원별 데이터가 흩어져 있어 통합 분석이 어렵고 정확도도 낮았습니다.</dd>
+          <dt>액션</dt><dd>고객·마케팅·병원 데이터를 잇는 파이프라인을 설계하고, 코호트별 결제율과 ROAS를 보는 퍼널 대시보드와 주간 인사이트 리포트를 운영했습니다.</dd>
+          <dt>결과</dt><dd class="result">데이터 관리 효율 <b>45%</b> 향상, 1인당 관리 범위 <b>1개 → 3개 병원</b>.</dd>
         </dl>
       </article>
 </details>
-<details class="case-toggle"><summary><span class="ct-label">경력기술서</span><span class="ct-title">공헌이익 기반 적정 ROAS 모델</span></summary>
+<details class="case-toggle"><summary><span class="ct-label">경력기술서</span><span class="ct-meta">2024 · 재무전략실</span><span class="ct-title">공헌이익 기반 적정 ROAS 모델</span></summary>
 <article class="case case-in">
         <div class="tags"><span class="tag">FP&amp;A</span><span class="tag">BEP</span><span class="tag">Simulation</span></div>
         <dl class="star">
@@ -579,13 +579,14 @@ footer { padding-block: 26px; font-size: 13px; color: var(--muted); font-family:
         </dl>
       </article>
 </details>
-<details class="case-toggle"><summary><span class="ct-label">경력기술서</span><span class="ct-title">BigQuery 기반 데이터마트 구축</span></summary>
+<details class="case-toggle"><summary><span class="ct-label">경력기술서</span><span class="ct-meta">2024 · 르샤인앤파트너스</span><span class="ct-title">텔레마케팅 내원율 하락 원인 분석</span></summary>
 <article class="case case-in">
-        <div class="tags"><span class="tag">BigQuery</span><span class="tag">SQL</span><span class="tag">Looker Studio</span></div>
+        <div class="tags"><span class="tag">Funnel Analysis</span><span class="tag">Interview</span><span class="tag">Ops Design</span></div>
         <dl class="star">
-          <dt>상황</dt><dd>병원별 데이터가 흩어져 있어 통합 분석이 어렵고 정확도도 낮았습니다.</dd>
-          <dt>액션</dt><dd>고객·마케팅·병원 데이터를 잇는 파이프라인을 설계하고, 코호트별 결제율과 ROAS를 보는 퍼널 대시보드와 주간 인사이트 리포트를 운영했습니다.</dd>
-          <dt>결과</dt><dd class="result">데이터 관리 효율 <b>45%</b> 향상, 1인당 관리 범위 <b>1개 → 3개 병원</b>.</dd>
+          <dt>상황</dt><dd>16% 수준이던 전환율이 3개월간 14%에 머물렀고, 신규 상담원을 채용한 뒤에도 회복되지 않았습니다.</dd>
+          <dt>분석</dt><dd>상품별 예약률·전환율로 병목 구간을 찾고, TM팀 심층 인터뷰로 상담 실적과 무관하게 DB를 균등 분배하는 운영 방식을 원인으로 특정했습니다.</dd>
+          <dt>액션</dt><dd>신규 상담원에게 전환 가능성이 높은 상품을 우선 배정하고, 실적 등급별 DB 분배 상한선을 설정. 예약률·전환율을 경영 대시보드에 연동했습니다.</dd>
+          <dt>결과</dt><dd class="result">전환율 <b>15~16%</b> 수준으로 회복, 신규 상담원 멘토링 프로세스 정착.</dd>
         </dl>
       </article>
 </details>
@@ -887,7 +888,7 @@ footer { padding-block: 26px; font-size: 13px; color: var(--muted); font-family:
             <li><b>Performance Marketing</b> (2021.12–2023.01): Marketing mix, funnel-stage metrics, campaign A/B testing</li>
           </ul>
           <div class="case-list">
-<details class="case-toggle"><summary><span class="ct-label">Case study</span><span class="ct-title">Redesigning a trial promotion funnel</span></summary>
+<details class="case-toggle"><summary><span class="ct-label">Case study</span><span class="ct-meta">2022 · Performance Marketing</span><span class="ct-title">Redesigning a trial promotion funnel</span></summary>
 <article class="case case-in">
         <div class="tags"><span class="tag">A/B Test</span><span class="tag">Cohort</span><span class="tag">Dashboard</span></div>
         <dl class="star">
@@ -898,18 +899,17 @@ footer { padding-block: 26px; font-size: 13px; color: var(--muted); font-family:
         </dl>
       </article>
 </details>
-<details class="case-toggle"><summary><span class="ct-label">Case study</span><span class="ct-title">Diagnosing a telemarketing conversion drop</span></summary>
+<details class="case-toggle"><summary><span class="ct-label">Case study</span><span class="ct-meta">2023 · Data Team</span><span class="ct-title">Building a BigQuery data mart</span></summary>
 <article class="case case-in">
-        <div class="tags"><span class="tag">Funnel Analysis</span><span class="tag">Interview</span><span class="tag">Ops Design</span></div>
+        <div class="tags"><span class="tag">BigQuery</span><span class="tag">SQL</span><span class="tag">Looker Studio</span></div>
         <dl class="star">
-          <dt>Context</dt><dd>Conversion had held around 16% but stayed at 14% for three months, and did not recover even after new counselors were hired.</dd>
-          <dt>Analysis</dt><dd>Located the bottleneck with booking and conversion rates by product, then interviews with the TM team showed leads were split evenly regardless of each counselor's performance.</dd>
-          <dt>Action</dt><dd>Gave new counselors the products most likely to convert first, set lead caps by performance tier, and linked booking and conversion rates to the management dashboard.</dd>
-          <dt>Result</dt><dd class="result">Conversion back to <b>15–16%</b>, with a mentoring process for new counselors in place.</dd>
+          <dt>Context</dt><dd>Data was scattered across hospitals, making combined analysis hard and accuracy low.</dd>
+          <dt>Action</dt><dd>Designed a pipeline joining customer, marketing and hospital data, and ran a funnel dashboard on payment rate and ROAS by cohort along with a weekly insight report.</dd>
+          <dt>Result</dt><dd class="result">Data management efficiency up <b>45%</b>, scope per person from <b>1 to 3 hospitals</b>.</dd>
         </dl>
       </article>
 </details>
-<details class="case-toggle"><summary><span class="ct-label">Case study</span><span class="ct-title">Target ROAS based on contribution margin</span></summary>
+<details class="case-toggle"><summary><span class="ct-label">Case study</span><span class="ct-meta">2024 · HQ Finance &amp; Strategy</span><span class="ct-title">Target ROAS based on contribution margin</span></summary>
 <article class="case case-in">
         <div class="tags"><span class="tag">FP&amp;A</span><span class="tag">BEP</span><span class="tag">Simulation</span></div>
         <dl class="star">
@@ -919,13 +919,14 @@ footer { padding-block: 26px; font-size: 13px; color: var(--muted); font-family:
         </dl>
       </article>
 </details>
-<details class="case-toggle"><summary><span class="ct-label">Case study</span><span class="ct-title">Building a BigQuery data mart</span></summary>
+<details class="case-toggle"><summary><span class="ct-label">Case study</span><span class="ct-meta">2024 · Leshine &amp; Partners</span><span class="ct-title">Diagnosing a telemarketing conversion drop</span></summary>
 <article class="case case-in">
-        <div class="tags"><span class="tag">BigQuery</span><span class="tag">SQL</span><span class="tag">Looker Studio</span></div>
+        <div class="tags"><span class="tag">Funnel Analysis</span><span class="tag">Interview</span><span class="tag">Ops Design</span></div>
         <dl class="star">
-          <dt>Context</dt><dd>Data was scattered across hospitals, making combined analysis hard and accuracy low.</dd>
-          <dt>Action</dt><dd>Designed a pipeline joining customer, marketing and hospital data, and ran a funnel dashboard on payment rate and ROAS by cohort along with a weekly insight report.</dd>
-          <dt>Result</dt><dd class="result">Data management efficiency up <b>45%</b>, scope per person from <b>1 to 3 hospitals</b>.</dd>
+          <dt>Context</dt><dd>Conversion had held around 16% but stayed at 14% for three months, and did not recover even after new counselors were hired.</dd>
+          <dt>Analysis</dt><dd>Located the bottleneck with booking and conversion rates by product, then interviews with the TM team showed leads were split evenly regardless of each counselor's performance.</dd>
+          <dt>Action</dt><dd>Gave new counselors the products most likely to convert first, set lead caps by performance tier, and linked booking and conversion rates to the management dashboard.</dd>
+          <dt>Result</dt><dd class="result">Conversion back to <b>15–16%</b>, with a mentoring process for new counselors in place.</dd>
         </dl>
       </article>
 </details>
