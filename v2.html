@@ -161,11 +161,11 @@ section { border-top: 1px solid var(--line); padding-block: 64px; }
 
 /* Experience timeline */
 .timeline { display: grid; gap: 0; }
-.job { display: grid; grid-template-columns: 170px 1fr; gap: 20px; padding-block: 22px; border-bottom: 1px solid var(--line); }
+.job { display: grid; grid-template-columns: 1fr; gap: 6px; padding-block: 26px; border-bottom: 1px solid var(--line); }
 .job:first-child { padding-top: 0; }
 .job:last-child { border-bottom: 0; }
 .job > * { min-width: 0; }
-.job .when { font-family: var(--f-mono); font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.job .when { font-family: var(--f-mono); font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; letter-spacing: .02em; }
 .job .when .now { color: var(--orange); }
 .job h3 { font-size: 18px; font-weight: 600; }
 .job .role { color: var(--teal); font-size: 14px; font-weight: 500; margin-top: 2px; }
